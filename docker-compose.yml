@@ -1,0 +1,64 @@
+version: "3.5"
+
+services:
+  mongodb:
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongodb-data:/data/db  # Volume para armazenar os dados do MongoDB
+
+  mongo_gui:
+    container_name: "mpay_getnet_mongo_gui"
+    image: mongo-express
+    ports:
+      - "28081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=example
+    depends_on:
+      - mongodb
+
+  postgres:
+    image: postgres:latest
+    container_name: my_postgres_db
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: school
+      POSTGRES_USER: erickwendel
+      POSTGRES_PASSWORD: mypassword
+    command: postgres -c 'max_connections=1000'
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+      - ./dockerfiles/custom-postgresql.conf:/etc/postgresql/postgresql.conf
+    healthcheck:
+      test: pg_isready -U pgweb -h 127.0.0.1
+      interval: 5s
+
+  pgweb:
+    container_name: pgweb
+    image: sosedoff/pgweb:latest
+    build: .
+    environment:
+      PGWEB_DATABASE_URL: postgres://erickwendel:mypassword@postgres:5432/school?sslmode=disable
+    ports:
+      - 8081:8081
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "nc", "-vz", "127.0.0.1", "8081"]
+      interval: 5s
+
+volumes:
+  mongodb-data:
+    driver: local
+  postgresql-data:
+    driver: local

@@ -9,7 +9,6 @@ Este projeto implementa um processo ETL (Extração, Transformação e Carregame
 - Extração de dados do banco de dados Konnect.
 - Transformação dos dados extraídos para o formato exigido pelo Register.
 - Carregamento dos dados transformados no Register.
-- Registro de logs das operações de ETL.
 
 ## Instalação e Execução
 
@@ -32,9 +31,6 @@ Este projeto implementa um processo ETL (Extração, Transformação e Carregame
 
     Execute o comando `npm run start` para iniciar o processo de ETL.
 
-## Logs
-
-Os logs das operações de ETL serão registrados no console.
 
 ## Observações
 

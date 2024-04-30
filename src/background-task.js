@@ -17,8 +17,9 @@ async function processItems(items) {
       continue;
     }
 
+    await create_responsible(transformToResponsible(item))
+
     await Promise.all([
-      create_responsible(transformToResponsible(item)),
       create_company(transformToCompany(item)),
       create_documents(await transformToDocument(item)),
       create_logistic(transformToLogistic(item))

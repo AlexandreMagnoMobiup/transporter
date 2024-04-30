@@ -1,19 +1,50 @@
-# Parallelizing Node.js operations with child process
+# ETL Process Readme
 
-Example of [how to Migrate 1M items from MongoDB to Postgres in just a few minutes](https://youtu.be/EnK8-x8L9TY) using Node.js child process
+## Visão geral
 
-**First leave your star in the repo 🌟**
-![Aumentando em 999x a velocidade de processamento de dados com Node](https://github.com/ErickWendel/parallelizing-nodejs-ops/assets/8060102/6974de93-7848-477a-9198-9d99dedc18f3)
+Este projeto implementa um processo ETL (Extração, Transformação e Carregamento) para transferir dados do banco de dados Konnect para um novo serviço chamado Register.
 
+## Funcionalidades
 
-## Running
+- Extração de dados do banco de dados Konnect.
+- Transformação dos dados extraídos para o formato exigido pelo Register.
+- Carregamento dos dados transformados no Register.
+- Registro de logs das operações de ETL.
 
-You'll need to install Docker and Docker compose to be able to spin up the DBs instances, after that run:
-- docker-compose up -d
-- npm ci
-- npm run seed
-- npm start
+## Instalação e Execução
 
-## Errors?
+### Requisitos:
 
-In case you got an error of too many processes open, try decreasing the const [CLUSTER_SIZE](https://github.com/ErickWendel/parallelizing-nodejs-ops/blob/main/src/index.js#L8C1-L8C24) variable
+- Node.js instalado
+
+### Passos:
+
+1. **Crie o arquivo .env:**
+
+    - Copie o arquivo `.env.example` para `.env`.
+    - Preencha o `.env` com suas credenciais de acesso ao Konnect e ao Register.
+
+2. **Instale as dependências:**
+
+    Execute o comando `npm install` para instalar as dependências do projeto.
+
+3. **Execute o script de inicialização:**
+
+    Execute o comando `npm run start` para iniciar o processo de ETL.
+
+## Logs
+
+Os logs das operações de ETL serão registrados no console.
+
+## Observações
+
+- Este projeto foi desenvolvido para um caso de uso específico e pode necessitar de adaptações para outros cenários.
+- A documentação detalhada das funções e classes pode ser encontrada nos comentários do código-fonte.
+
+## Contribuições
+
+Sugestões de melhorias, correções de bugs e novas funcionalidades são bem-vindas.
+
+## Licença
+
+Este projeto está sob a licença MIT: [MIT License](https://choosealicense.com/licenses/mit/)

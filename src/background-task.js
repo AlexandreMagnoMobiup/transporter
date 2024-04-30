@@ -66,7 +66,7 @@ export function transformToCompany(item) {
       "company": {
           "name": item.company_social_name,
           "tradingName": item.company_fantasy_name || '-',
-          "cnpj": item.cpf_cnpj.length > 11 ? item.cpf_cnpj.length : '',
+          "cnpj": item.cpf_cnpj.length > 11 ? item.cpf_cnpj : '',
           "businessKey": item.key || '-',
           "address": {
               "postalCode": item.company_cep,

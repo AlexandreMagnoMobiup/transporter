@@ -8,6 +8,7 @@ import { setTimeout } from 'node:timers/promises'
 
 const ITEMS_PER_PAGE = 100
 const CLUSTER_SIZE = 99
+const DELAY_BETWEEN_QUERIES = 1000;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -74,9 +75,15 @@ const cp = initialize(
         }
     }
 )
-await setTimeout(1000)
+async function processAllData() {
+    let page = 0;
 
-for await (const data of getAllPagedData(ITEMS_PER_PAGE)) {
-    cp.sendToChild(data)
+    for await (const data of getAllPagedData(ITEMS_PER_PAGE, page)) {
+        cp.sendToChild(data);
+        page += ITEMS_PER_PAGE;
+        await setTimeout(DELAY_BETWEEN_QUERIES);
+    }
 }
 
+
+await processAllData();
